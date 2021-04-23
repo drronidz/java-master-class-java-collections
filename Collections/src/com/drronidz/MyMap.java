@@ -15,6 +15,7 @@ public class MyMap {
         languages.put("Java", "a compiled high level, object-oriented, platform independent language");
         languages.put("Python", "an interpreted, object-oriented, high-level programming language with dynamic semantics");
         languages.put("JavaScript", "Web & high-level programming language, object-oriented");
+        languages.put("XML","extended mobilisation language");
 
         //System.out.println(languages.get("Java"));
         if(languages.containsKey("Java")) {
@@ -30,5 +31,23 @@ public class MyMap {
         for (String key: languages.keySet()) {
             System.out.println(key + " : " + languages.get(key));
         }
+
+        languages.remove("Python");
+
+        if(languages.remove("JavaScript", "Cross-platform & high-level programming language, object-oriented")) {
+            System.out.println("JavaScript removed ");
+        }else {
+            System.out.println("JavaScript not removed, key/value pair not found");
+        }
+
+        System.out.println(languages.replace("XML","snippet language used to describe information"));
+
+        if(languages.replace("XML","snippet language used to describe information","snippet language used to describe information")){
+            System.out.println("XML replaced");
+        } else {
+            System.out.println("XML was not replaced");
+        }
+
+        System.out.println(languages.replace("Ruby"," Ruby on rails a new languages & few community"));
     }
 }
