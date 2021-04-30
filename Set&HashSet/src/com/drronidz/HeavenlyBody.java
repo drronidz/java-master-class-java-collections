@@ -8,7 +8,7 @@ package com.drronidz;/*
 import java.util.HashSet;
 import java.util.Set;
 
-public class HeavenlyBody {
+public abstract class HeavenlyBody {
     private final String name;
     private final double orbitalPeriod;
     private final Set<HeavenlyBody> satellites;
@@ -76,7 +76,7 @@ public class HeavenlyBody {
 
     @Override
     public String toString() {
-        return "HeavenlyBody{" +
+        return "HeavenlyBody {" +
                 "name='" + name + '\'' +
                 ", orbitalPeriod=" + orbitalPeriod +
                 ", satellites=" + satellites +
