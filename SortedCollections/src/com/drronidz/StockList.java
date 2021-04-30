@@ -7,6 +7,7 @@ package com.drronidz;/*
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StockList {
@@ -18,6 +19,14 @@ public class StockList {
 
     public StockItem get(String key){
         return list.get(key);
+    }
+
+    public Map<String, Double> priceList(){
+        Map<String, Double> prices = new LinkedHashMap<>();
+        for (Map.Entry<String, StockItem> item: list.entrySet()) {
+            prices.put(item.getKey(), item.getValue().getPrice());
+        }
+        return Collections.unmodifiableMap(prices);
     }
 
     public Map<String, StockItem> items(){
@@ -44,6 +53,7 @@ public class StockList {
         StockItem inStock = list.getOrDefault(item, null);
         if((inStock != null) && (inStock.getQuantityStock() >= quantity) && (quantity >0)){
             inStock.adjustStock(-quantity);
+            return quantity;
         }
         return 0;
     }
@@ -62,6 +72,6 @@ public class StockList {
             totalCost += itemValue;
         }
 
-        return s + "Total stock value " + totalCost;
+        return s + "Total stock value " + String.format("%.2f", totalCost);
     }
 }
