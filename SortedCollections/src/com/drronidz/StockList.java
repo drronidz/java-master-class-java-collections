@@ -12,7 +12,7 @@ import java.util.Map;
 public class StockList {
     private final Map<String, StockItem> list;
 
-    public StockList(Map<String, StockItem> list) {
+    public StockList() {
         this.list = new HashMap<>();
     }
 
@@ -58,7 +58,7 @@ public class StockList {
             double itemValue = stockItem.getPrice() * stockItem.getQuantityStock();
 
             s = s + stockItem + ". There are " + stockItem.getQuantityStock() + " in stock. Value of items: ";
-            s = s + itemValue + "\n";
+            s = s + String.format("%.2f", itemValue) + "\n"; // String.format (two decimal points)
             totalCost += itemValue;
         }
 
