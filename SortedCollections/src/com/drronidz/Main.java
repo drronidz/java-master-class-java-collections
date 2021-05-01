@@ -66,13 +66,40 @@ public class Main {
         System.out.println(timBasket);
 
         sellItem(timBasket, "spanner", 5);
-        System.out.println(timBasket);
+        //System.out.println(timBasket);
 
         sellItem(timBasket, "juice", 4);
         sellItem(timBasket, "cup", 12);
         sellItem(timBasket, "bread", 1);
+        //System.out.println(timBasket);
+
+        //System.out.println(stockList);
+
+        Basket basket = new Basket("customer");
+        sellItem(basket,"cup", 100);
+        sellItem(basket,"juice", 5);
+        sellItem(basket,"cup", 1);
+        System.out.println(basket);
+
+        removeItem(timBasket, "car", 1);
+        removeItem(timBasket, "cup", 9);
+        removeItem(timBasket, "car", 1);
+        System.out.println("cars removed: " + removeItem(timBasket, "car", 1)); // should not remove any
         System.out.println(timBasket);
 
+        // remove all items from tim's basket
+
+        removeItem(timBasket, "bread", 1);
+        removeItem(timBasket, "cup", 3);
+        removeItem(timBasket, "juice", 4);
+        removeItem(timBasket, "cup", 3);
+        System.out.println(timBasket);
+
+        System.out.println("\nDisplay stock list before and after checkout");
+        System.out.println(basket);
+        System.out.println(stockList);
+        checkOut(basket);
+        System.out.println(basket);
         System.out.println(stockList);
 
 //        temp = new StockItem("pen", 1.12);
@@ -82,9 +109,12 @@ public class Main {
         stockList.get("car").adjustStock(-1000);
         System.out.println(stockList);
 
-        for(Map.Entry<String, Double> price: stockList.priceList().entrySet()) {
-            System.out.println(price.getKey() + " costs " + price.getValue());
-        }
+//        for(Map.Entry<String, Double> price: stockList.priceList().entrySet()) {
+//            System.out.println(price.getKey() + " costs " + price.getValue());
+//        }
+
+        checkOut(timBasket);
+        System.out.println(timBasket);
     }
 
     public static int sellItem(Basket basket, String item, int quantity) {
@@ -96,10 +126,32 @@ public class Main {
             return 0;
         }
 
-        if(stockList.sellStock(item, quantity) != 0) {
+        if(stockList.reserveStock(item, quantity) != 0) {
             basket.addToBasket(stockItem, quantity);
-            return quantity;
+            return basket.addToBasket(stockItem, quantity);
         }
         return 0;
+    }
+
+    public static int removeItem(Basket basket, String item, int quantity) {
+        // retrieve the item from stock list
+        StockItem stockItem = stockList.get(item);
+
+        if(stockItem == null) {
+            System.out.println("We don't sell " + item);
+            return 0;
+        }
+
+        if(basket.removeFromBasket(stockItem, quantity) == 0) {
+            return stockList.unreserveStock(item, quantity);
+        }
+        return 0;
+    }
+
+    public static void checkOut(Basket basket) {
+        for (Map.Entry<StockItem, Integer> item : basket.Items().entrySet()) {
+            stockList.sellStock(item.getKey().getName(), item.getValue());
+        }
+        basket.clearBasket();
     }
 }
